@@ -3,9 +3,10 @@ Stereo Depth Reconstruction from a pair of stereo color images, implemented as a
 
 Both CPU and GPU implementation.
 
-The CPU implementation uses SIMD / SSE instructions for maximum performance.
-
-The GPU implementations use either OpenGL (implemented as a shader for maximum compatibility) or OpenCL.
+Contents:
+- ```steder.h``` CPU-based implementation using SIMD / SSE instructions for maximum performance.
+- ```steder_gl.h``` GPU-based implementations using OpenGL (implemented as a shader for maximum compatibility).
+- ```steder_cl.h``` GPU-based implementation using OpenCL.
 
 ## [steder.h](steder.h)
 Stereo color image depth reconstruction on the CPU, using Intel SSE SIMD instruction and an optimized memory layout for high performance.
@@ -14,7 +15,7 @@ The whole code is included in the single header file.
 
 Just create a ```SteDeR``` object, initialize it with ```init(image_width, image_height, disparity_limit)``` where disparity_limit is the maximum pixel disparity (relative to image width) that you wish to allow, and use the ```()``` operator on the SteDeR object to receive floating point depth buffers.
 
-Usage example:
+### Usage example:
 ```
 // Load color stereo images
 unsigned char *left_image, *right_image;
@@ -49,7 +50,7 @@ This is very handy if you wish to use the depth buffer for later rendering. For 
 
 Note that you need have an intialized OpenGL rendering contect for running SteDeR_GL.
 
-Usage example:
+### Usage example:
 ```
 // Load color stereo images
 unsigned char *left_image, *right_image;
@@ -103,4 +104,34 @@ glBindTexture(GL_TEXTURE_2D, depthbuffer_left_tex);
 glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, zL);
 glBindTexture(GL_TEXTURE_2D, depthbuffer_right_tex);
 glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, zR);
+```
+
+
+## [steder_cl.h](steder_cl.h)
+Stereo color image depth reconstruction on the GPU by using OpenGL shaders.
+
+The whole code is included in the single header file. ```steder.h``` is not required.
+
+SteDeR_CL requires OpenCL.
+
+### Usage example:
+```
+// Load images and allocate depth buffers:
+unsigned char *left_img, *right_img;
+left_img = load_image("C:/path/to/images/left.png");
+right_img = load_image("C:/path/to/images/right.png");
+float* zL = (float*) malloc(image_width * image_height * sizeof(float));
+float* zR = (float*) malloc(image_width * image_height * sizeof(float));
+
+// Create and initialize SteDeR CL object:
+SteDeRCL s;
+int error = s.init(image_width, image_height, 0.2f);
+if (error) {
+    printf("Failed to initialize SteDeRCL (%i).\n",error);
+    return -1;
+}
+
+// Perform depth reconstruction:
+error = s(left_img, right_img, zL,zR);
+
 ```
