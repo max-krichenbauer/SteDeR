@@ -3,9 +3,9 @@ Stereo Depth Reconstruction from a pair of stereo color images, implemented as a
 
 The library is intended for live video stream Augmented Reality, and therefore optimized for highest processing speed, not for an optimal result.
 
-[Illustration](illustration.png)
+![Illustration](illustration.png)
 
-Contents:
+**Contents:**
 - ```steder.h``` CPU-based implementation using SIMD / SSE instructions for maximum performance.
 - ```steder_gl.h``` GPU-based implementations using OpenGL (implemented as a shader for maximum compatibility).
 - ```steder_cl.h``` GPU-based implementation using OpenCL.
