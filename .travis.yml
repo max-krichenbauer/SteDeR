@@ -6,3 +6,20 @@ compiler:
   - gcc
 script:
 - gcc test/test.cpp -o test/test -lm -lstdc++ -mavx
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "jB9DuVZAV8s2lNt3JWMf7CFSJX/50PdJuhwmwabI6lAlyg0VaiTpIsdbq0gH85tf8BelYBaBUyFzYI/oNuFb37BUUQWjopg68P+UAWivDQaPz8rdMKPiYW1QgWxsQpKQYn8q/6LsdWWBebjWgPa/I3quK3ffwMqCDK55FmYAQhOFweqMvrWvum5KUD2/Lao7f140dLOfMmvzUCmXa7MVAVPw9h8vozbcczLlDwQ87UPRl5Z3cUZORARbxZzIx4QoOd/PWEsnFnkgFcCFgD/4Gb44VZ+baklUGPNfs5/sSzWD0KQyvq88W5hUbxnB4f8codo0u+oeQwRHeQ+pa4lk9cB3i8nFjY5pyDolLjZeEby3fCUkPznzKKycpkTlssJPm3t/5mDJ+mhv0FE2Ckn0Sz8f9KA1d8b/g+Nc3wPgdN88O6IsDKH2S/SxM8MIwmDLnCW5fp5jRF4MvJfVSEB2QgEXxho+5jePiYkb+4e8indQETgSBtmEzkbSnca+WqiOxe0VP0IpxBj95m5PqMQwaRJHxGAtw7VyQCtUWq2o6bJCqcR1slJsyEfKE0AVaSeATQBfkyNiUBVHY6QKT/PV1RTDZmI5gRzUIZvpsVcyCYSf06cjxgojQpHG9St9d8XjxR3S1bzTkPbkS4gHR1NbLLhbyXRQPLA0k4iiafsgNsQ="
+
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "max-krichenbauer/SteDeR"
+      description: "Stereo Depth Reconstruction from a pair of stereo color images, implemented as a single C++ header file."
+    build_command: "gcc test/test.cpp -o test/test -lm -lstdc++ -mavx"
+    branch_pattern: coverity_scan
