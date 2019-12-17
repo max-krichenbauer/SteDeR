@@ -1,0 +1,8 @@
+language: cpp
+os:
+- linux
+dist: xenial
+compiler:
+  - gcc
+script:
+- gcc test/test.cpp -o test/test -lm -lstdc++ -mavx

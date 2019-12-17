@@ -61,6 +61,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 #include <map>
 #include <xmmintrin.h>
 #include <emmintrin.h>
