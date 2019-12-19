@@ -1,4 +1,8 @@
 language: cpp
+branches:
+  only:
+  - master
+  - coverity_scan
 os:
 - linux
 dist: xenial
@@ -6,7 +10,6 @@ compiler:
   - gcc
 script:
 - gcc test/test.cpp -o test/test -lm -lstdc++ -mavx
-
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
