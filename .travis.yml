@@ -6,6 +6,7 @@ branches:
 os:
 - linux
 dist: xenial
+sudo: required
 compiler:
   - gcc
 script:
