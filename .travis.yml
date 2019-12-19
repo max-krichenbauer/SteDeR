@@ -26,4 +26,5 @@ addons:
       name: "max-krichenbauer/SteDeR"
       description: "Stereo Depth Reconstruction from a pair of stereo color images, implemented as a single C++ header file."
     build_command: "gcc test/test.cpp -o test/test -lm -lstdc++ -mavx"
+    notification_email: max@krichenbauer.de
     branch_pattern: coverity_scan
